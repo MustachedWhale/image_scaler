@@ -29,26 +29,63 @@ def check_file_is_jpg():
         img.close()
         exit()
 
-# Generates a new directory and images based on the name of the initial file.
-def generate_new_images(init_file):
-    pass
+# Generates a new set of directories and images if the initial image is in portrait orientation.
+def generate_portrait_images(init_file):
+    if init_file == '4x5in.jpg':
+        pass
+    elif init_file == '4x6in.jpg':
+        pass
+    elif init_file == '5x7in.jpg':
+        pass
+    elif init_file == '6x8in.jpg':
+        pass
+    elif init_file == '11x14in.jpg':
+        pass
+    elif init_file == 'A5.jpg':
+        pass
+    else:
+        pass
+
+# Generates a new set of directories and images if the initial image is in landscape orientation.
+def generate_landscape_images(init_file):
+    if init_file == '5x4in.jpg':
+        pass
+    elif init_file == '6x4in.jpg':
+        pass
+    elif init_file == '7x5in.jpg':
+        pass
+    elif init_file == '8x6in.jpg':
+        pass
+    elif init_file == '14x11in.jpg':
+        pass
+    elif init_file == 'A5.jpg':
+        pass
+    else:
+        pass
+
+# Generates a new set of directories and images if the initial image is square.
+def generate_square_images(init_file):
+    if init_file == '8x8in.jpg':
+        pass
+    else:
+        pass
 
 # == Main Code ==
 
 # Image size dictionaries.
 portrait_sizes_dict = {
-    '4x5in.jpg':    ['8x10in.jpg', '12x15in.jpg', '16x20in.jpg'],
-    '4x6in.jpg':    ['6x9in.jpg', '8x12in.jpg', '10x15in.jpg', '12x18in.jpg', '16x24in.jpg', '20x30in.jpg', '24x36in.jpg'],
-    #'5x7in.jpg':    [],
-    '6x8in.jpg':    ['9x12in.jpg', '12x16in.jpg', '15x20in.jpg', '18x24in.jpg'],
-    #'11x14in.jpg':  [],
-    'A5.jpg':       ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg']
+    '4x5in.jpg': ['8x10in.jpg', '12x15in.jpg', '16x20in.jpg'],
+    '4x6in.jpg': ['6x9in.jpg', '8x12in.jpg', '10x15in.jpg', '12x18in.jpg', '16x24in.jpg', '20x30in.jpg', '24x36in.jpg'],
+    #'5x7in.jpg': [],
+    '6x8in.jpg': ['9x12in.jpg', '12x16in.jpg', '15x20in.jpg', '18x24in.jpg'],
+    #'11x14in.jpg': [],
+    'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg']
 }
 landscape_sizes_dict = {
-    '6x4in.jpg': ['9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18.12xin.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg'],
-    '8x6in.jpg': ['12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg'],
     '5x4in.jpg': ['10x8in.jpg', '15x12in.jpg', '20x16in.jpg'],
+    '6x4in.jpg': ['9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18.12xin.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg'],
     # '7x5in.jpg':  []
+    '8x6in.jpg': ['12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg'],
     # '14x11in.jpg':    []
     'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg']
 }
@@ -68,6 +105,11 @@ check_ill_dirs(illustration_dir_list)
 # Checks whether each directory contains all jpeg files.
 for current_dir in illustration_dir_list:
     for root, directories, files in os.walk(current_dir):
-        for file in files:
+        for count, file in enumerate(files):
             check_file_is_jpg()
-            generate_new_images(file)
+            if count == 0 and file == '4x5in.jpg':
+                generate_portrait_images(file)
+            elif count == 0 and file == '5x4in.jpg':
+                generate_landscape_images(file)
+            else: # Square image
+                generate_square_images(file)
