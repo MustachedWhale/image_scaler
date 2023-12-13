@@ -30,28 +30,32 @@ def check_file_is_jpg():
         return False
 
 # Generates a new directory and images to populate it.
-def create_dir_and_populate(current_file, current_dir):
-    pass
+def create_dir_and_populate(init_file, current_dir):
+    for key in sizes_dict:
+        if init_file == key:
+            new_dir_path = os.path.join(current_dir, sizes_dict['4x5in.jpg'][-1])
+            print(new_dir_path)
+
 
 # == Main Code ==
 
 # Image size dictionaries.
 sizes_dict = {
     # Portrait sizes
-    '4x5in.jpg': ['8x10in.jpg', '12x15in.jpg', '16x20in.jpg'],
-    '4x6in.jpg': ['6x9in.jpg', '8x12in.jpg', '10x15in.jpg', '12x18in.jpg', '16x24in.jpg', '20x30in.jpg', '24x36in.jpg'],
-    #'5x7in.jpg': [],
-    '6x8in.jpg': ['9x12in.jpg', '12x16in.jpg', '15x20in.jpg', '18x24in.jpg'],
-    #'11x14in.jpg': [],
-    'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg'],
+    '4x5in.jpg': ['8x10in.jpg', '12x15in.jpg', '16x20in.jpg', '4x5 Aspect Ratio'],
+    '4x6in.jpg': ['6x9in.jpg', '8x12in.jpg', '10x15in.jpg', '12x18in.jpg', '16x24in.jpg', '20x30in.jpg', '24x36in.jpg', '2x3 Aspect Ratio'],
+    '5x7in.jpg': ['5x7 Aspect Ratio'],
+    '6x8in.jpg': ['9x12in.jpg', '12x16in.jpg', '15x20in.jpg', '18x24in.jpg', '3x4 Aspect Ratio'],
+    '11x14in.jpg': ['11x14 Aspect Ratio'],
+    'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg', 'ISO Sizes'],
 
     # Landscape sizes
-    '5x4in.jpg': ['10x8in.jpg', '15x12in.jpg', '20x16in.jpg'],
-    '6x4in.jpg': ['9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18.12xin.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg'],
-    # '7x5in.jpg':  []
-    '8x6in.jpg': ['12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg'],
-    # '14x11in.jpg':    []
-    'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg'],
+    '5x4in.jpg': ['10x8in.jpg', '15x12in.jpg', '20x16in.jpg', '5x4 Aspect Ratio'],
+    '6x4in.jpg': ['9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18.12xin.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg', '3x2 Aspect Ratio'],
+    '7x5in.jpg':  ['7x5 Apsect Ratio'],
+    '8x6in.jpg': ['12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg', '4x3 Aspect Ratio'],
+    '14x11in.jpg': ['14x11 Aspect Ratio'],
+    'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg', 'ISO Sizes'],
     
     # Square size
     '8x8in.jpg': ['10x10in.jpg', '12x12in.jpg', '16x16in.jpg']
