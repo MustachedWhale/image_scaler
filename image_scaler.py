@@ -20,8 +20,8 @@ def check_ill_dirs(illustration_dir_list):
             exit()
 
 # Checks that a file is of the .jpg file type.
-def check_file_is_jpg():
-    img = Image.open(file)
+def check_file_is_jpg(file_path):
+    img = Image.open(file_path)
     if img.format == 'JPEG':
         img.close()
         return True
@@ -32,9 +32,9 @@ def check_file_is_jpg():
 # Generates a new directory and images to populate it.
 def create_dir_and_populate(init_file, current_dir):
     for key in sizes_dict:
-        if init_file == key:
-            new_dir_path = os.path.join(current_dir, sizes_dict['4x5in.jpg'][-1])
-            print(new_dir_path)
+        if init_file == key and key != '8x8in.jpg':
+            new_dir_path = os.path.join(current_dir, sizes_dict[file][-1])
+            os.mkdir(new_dir_path)
 
 
 # == Main Code ==
@@ -52,7 +52,7 @@ sizes_dict = {
     # Landscape sizes
     '5x4in.jpg': ['10x8in.jpg', '15x12in.jpg', '20x16in.jpg', '5x4 Aspect Ratio'],
     '6x4in.jpg': ['9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18.12xin.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg', '3x2 Aspect Ratio'],
-    '7x5in.jpg':  ['7x5 Apsect Ratio'],
+    '7x5in.jpg':  ['7x5 Aspect Ratio'],
     '8x6in.jpg': ['12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg', '4x3 Aspect Ratio'],
     '14x11in.jpg': ['14x11 Aspect Ratio'],
     'A5.jpg': ['A4.jpg', 'A3.jpg', 'A2.jpg', 'A1.jpg', 'ISO Sizes'],
@@ -71,10 +71,12 @@ illustration_dir_list = os.listdir(base_dir)
 check_ill_dirs(illustration_dir_list)
 
 # Checks whether each directory contains all jpeg files and generates the images.
-for current_dir in illustration_dir_list:
+for ill_dir in illustration_dir_list:
+    current_dir = os.path.join(base_dir, ill_dir)
     for root, directories, files in os.walk(current_dir):
         for file in files:
-            if check_file_is_jpg():
+            current_file_path = f'{current_dir}\{file}'
+            if check_file_is_jpg(current_file_path):
                 create_dir_and_populate(file, current_dir)
             else:
                 print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
