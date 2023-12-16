@@ -37,8 +37,8 @@ def check_file_is_jpg(file_path):
         img.close()
         return False
 
-# Generates a new directory and images to populate it.
-def create_dir_and_populate(init_file, current_dir, current_file_path):
+# Generates a new directory and moves the base image to it.
+def create_dir_from_image(init_file, current_dir, current_file_path):
     for key in sizes_dict:
         if init_file == key and key != '8x8in.jpg':
             new_dir_path = os.path.join(current_dir, sizes_dict[file][-1])
@@ -86,7 +86,7 @@ for ill_dir in illustration_dir_list:
         for file in files:
             current_file_path = os.path.join(current_dir, file)
             if check_file_is_jpg(current_file_path):
-                create_dir_and_populate(file, current_dir, current_file_path)
+                create_dir_from_image(file, current_dir, current_file_path)
             else:
                 print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
                 exit()
