@@ -2,9 +2,17 @@ import sys
 import os
 from PIL import Image
 
-# Checks that 2 command-line arguments have been passed in and that the second argument is a directory.
+# Checks that 2 command-line arguments have been passed in.
+def has_cla():
+    if len(sys.argv) != 2:
+        print("Provide the base folder as a command line argument.")
+        exit()
+    else:
+        return True
+
+# Checks that the second argument is a directory.
 def check_cla_is_dir():
-    if len(sys.argv) != 2 or not os.path.isdir(sys.argv[1]):
+    if not os.path.isdir(sys.argv[1]):
         print("Provide the base folder as a command line argument.")
         exit()
     else:
@@ -30,12 +38,13 @@ def check_file_is_jpg(file_path):
         return False
 
 # Generates a new directory and images to populate it.
-def create_dir_and_populate(init_file, current_dir):
+def create_dir_and_populate(init_file, current_dir, current_file_path):
     for key in sizes_dict:
         if init_file == key and key != '8x8in.jpg':
             new_dir_path = os.path.join(current_dir, sizes_dict[file][-1])
+            new_file_path = os.path.join(new_dir_path, file)
             os.mkdir(new_dir_path)
-
+            os.rename(current_file_path, new_file_path)
 
 # == Main Code ==
 
@@ -61,7 +70,7 @@ sizes_dict = {
     '8x8in.jpg': ['10x10in.jpg', '12x12in.jpg', '16x16in.jpg']
 }
 
-if check_cla_is_dir():
+if has_cla() and check_cla_is_dir():
     base_dir = sys.argv[1]
 
 # Get a list of the directories inside base_dir.
@@ -75,9 +84,9 @@ for ill_dir in illustration_dir_list:
     current_dir = os.path.join(base_dir, ill_dir)
     for root, directories, files in os.walk(current_dir):
         for file in files:
-            current_file_path = f'{current_dir}\{file}'
+            current_file_path = os.path.join(current_dir, file)
             if check_file_is_jpg(current_file_path):
-                create_dir_and_populate(file, current_dir)
+                create_dir_and_populate(file, current_dir, current_file_path)
             else:
                 print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
                 exit()
