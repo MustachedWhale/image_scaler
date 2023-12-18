@@ -38,13 +38,13 @@ def check_file_is_jpg(file_path):
         return False
 
 # Generates a new directory and moves the base image to it.
-def create_dir_from_image(init_file, current_dir, current_file_path):
+def create_dir_from_image(file, current_dir, file_path):
     for key in sizes_dict:
-        if init_file == key and key != '8x8in.jpg':
+        if file == key and key != '8x8in.jpg':
             new_dir_path = os.path.join(current_dir, sizes_dict[file][-1])
             new_file_path = os.path.join(new_dir_path, file)
             os.mkdir(new_dir_path)
-            os.rename(current_file_path, new_file_path)
+            os.rename(file_path, new_file_path)
 
 # == Main Code ==
 
@@ -79,14 +79,16 @@ illustration_dir_list = os.listdir(base_dir)
 # Checks that each directory has names following the convention 'Illustration X'.
 check_ill_dirs(illustration_dir_list)
 
-# Checks whether each directory contains all jpeg files and generates the images.
+# Checks whether each directory contains all jpeg files, then creates directories and moves the base images to the correct folders.
 for ill_dir in illustration_dir_list:
     current_dir = os.path.join(base_dir, ill_dir)
     for root, directories, files in os.walk(current_dir):
+        # For each image in os.walk() file result.
         for file in files:
-            current_file_path = os.path.join(current_dir, file)
-            if check_file_is_jpg(current_file_path):
-                create_dir_from_image(file, current_dir, current_file_path)
+            # Create a file path for the image.
+            file_path = os.path.join(current_dir, file)
+            if check_file_is_jpg(file_path):
+                create_dir_from_image(file, current_dir, file_path)
             else:
                 print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
                 exit()
