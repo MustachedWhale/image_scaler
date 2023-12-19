@@ -37,6 +37,20 @@ def check_file_is_jpg(file_path):
         img.close()
         return False
 
+# Checks that all the files in the directory are .jpeg.
+def check_dir_contains_jpegs(base_dir, ill_dir):
+    current_dir = os.path.join(base_dir, ill_dir)
+    for files in os.walk(current_dir):
+        for file in files:
+            file_path = os.path.join(current_dir, file)
+            if not check_file_is_jpg(file_path):
+                print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
+                exit()
+
+# Creates the directories required using the images in the folder.
+def create_dirs(base_dir, ill_dir):
+    pass
+
 # Generates a new directory and moves the base image to it.
 def create_dir_from_image(file, current_dir, file_path):
     for key in sizes_dict:
@@ -90,21 +104,12 @@ if has_cla() and check_cla_is_dir():
     base_dir = sys.argv[1]
 
 # Get a list of the directories inside base_dir.
-illustration_dir_list = os.listdir(base_dir)
+ill_dir_list = os.listdir(base_dir)
 
 # Checks that each directory has names following the convention 'Illustration X'.
-check_ill_dirs(illustration_dir_list)
+check_ill_dirs(ill_dir_list)
 
-# Checks whether each directory contains all jpeg files, then creates directories and moves the base images to the correct folders.
-for ill_dir in illustration_dir_list:
-    current_dir = os.path.join(base_dir, ill_dir)
-    for root, directories, files in os.walk(current_dir):
-        # For each image in os.walk() file result.
-        for file in files:
-            # Create a file path for the image.
-            file_path = os.path.join(current_dir, file)
-            if check_file_is_jpg(file_path):
-                create_dir_from_image(file, current_dir, file_path)
-            else:
-                print(f"Ensure all the files in {current_dir} are of the .jpeg file format.")
-                exit()
+# Checks that each directory contains all .jpeg files.
+for ill_dir in ill_dir_list:
+    check_dir_contains_jpegs(base_dir, ill_dir)
+    create_dirs(base_dir, ill_dir)
