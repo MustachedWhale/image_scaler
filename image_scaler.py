@@ -49,7 +49,10 @@ def check_dir_contains_jpegs(base_dir, ill_dir):
 
 # Creates the directories required using the images in the folder.
 def create_dirs(base_dir, ill_dir):
-    pass
+    current_dir = os.path.join(base_dir, ill_dir)
+    for files in os.walk(current_dir):
+        for file in files:
+            create_dir_from_image(file, current_dir)
 
 # Generates a new directory and moves the base image to it.
 def create_dir_from_image(file, current_dir, file_path):
@@ -59,6 +62,22 @@ def create_dir_from_image(file, current_dir, file_path):
             new_file_path = os.path.join(new_dir_path, file)
             os.mkdir(new_dir_path)
             os.rename(file_path, new_file_path)
+
+# Generates a new directory from a file name.
+def create_dir_from_image(file, current_dir):
+    for item in dir_list:
+        if file == item[0]:
+            new_dir_path = os.path.join(current_dir, item[1])
+            new_file_path = os.path.join(new_dir_path, file)
+            os.mkdir(new_file_path)
+
+# Moves the images to the correct directory.
+def move_images(base_dir, ill_dir):
+    ill_path = os.path.join(base_dir, ill_dir)
+    for files in os.walk(ill_path):
+        for file in files:
+            current_file_path = os.path.join(ill_path, file)
+            new_file_path = os.path.join()
 
 # == Main Code ==
 
@@ -113,3 +132,4 @@ check_ill_dirs(ill_dir_list)
 for ill_dir in ill_dir_list:
     check_dir_contains_jpegs(base_dir, ill_dir)
     create_dirs(base_dir, ill_dir)
+    move_images(base_dir, ill_dir)
