@@ -19,8 +19,15 @@ def check_cla_is_dir():
         return True
     
 # Checks that the script has not already been run on the folder.
-def check_repeat(ill_dir_list):
-    pass
+def check_repeat(base_dir, ill_dir_list):
+    for ill_dir in ill_dir_list:
+        current_dir = os.path.join(base_dir, ill_dir)
+        for root, dirs, files in os.walk(current_dir):
+            if len(dirs) == 0:
+                break
+            elif len(dirs) == 6:
+                print('\nThe script has already been run inside this directory.')
+                exit() 
 
 # Checks each folder name follows the convention 'Illustration X'.    
 def check_ill_dirs(illustration_dir_list):
@@ -127,10 +134,12 @@ size_list = [
 if has_cla() and check_cla_is_dir():
     base_dir = sys.argv[1]
 
-print('\nImage Scaler')
+print('\n== Image Scaler ==')
 
 # Get a list of the directories inside base_dir.
 ill_dir_list = os.listdir(base_dir)
+# Checks that the directory has not already had the script run.
+check_repeat(base_dir, ill_dir_list)
 print('\nDirectories discovered.')
 # Checks that each directory has names following the convention 'Illustration X'.
 check_ill_dirs(ill_dir_list)
