@@ -17,6 +17,10 @@ def check_cla_is_dir():
         exit()
     else:
         return True
+    
+# Checks that the script has not already been run on the folder.
+def check_repeat(ill_dir_list):
+    pass
 
 # Checks each folder name follows the convention 'Illustration X'.    
 def check_ill_dirs(illustration_dir_list):
@@ -123,19 +127,29 @@ size_list = [
 if has_cla() and check_cla_is_dir():
     base_dir = sys.argv[1]
 
+print('\nImage Scaler')
+
 # Get a list of the directories inside base_dir.
 ill_dir_list = os.listdir(base_dir)
+print('\nDirectories discovered.')
 # Checks that each directory has names following the convention 'Illustration X'.
 check_ill_dirs(ill_dir_list)
+print('\nIllustration directories are named correctly.')
 
 # Checks that each directory contains all .jpeg files.
+print('')
 for ill_dir in ill_dir_list:
     check_dir_contains_jpegs(base_dir, ill_dir)
+    print(f'{ill_dir} contain files of the correct file type.')
 
 # Creates a directory per image.
+print('')
 for ill_dir in ill_dir_list:
     create_dirs(base_dir, ill_dir)
+    print(f'Subdirectories created for {ill_dir}.')
 
 # Moves the initial images into the correct directory.
+print('')
 for ill_dir in ill_dir_list:
     move_images(base_dir, ill_dir)
+    print(f'Images moved to the correct subdirectory for {ill_dir}.')
