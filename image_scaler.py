@@ -20,8 +20,8 @@ def check_cla_is_dir():
 
 # Checks each folder name follows the convention 'Illustration X'.    
 def check_ill_dirs(illustration_dir_list):
-    for d in illustration_dir_list:
-        if 'Illustration' in d and d[-1].isnumeric():
+    for dir_name in illustration_dir_list:
+        if 'Illustration' in dir_name and dir_name[-1].isnumeric():
             continue
         else:
             print("Ensure that all subdirectories are named in the convention 'Illustration X', where X is a number.")
@@ -40,7 +40,7 @@ def check_file_is_jpg(file_path):
 # Checks that all the files in the directory are .jpeg.
 def check_dir_contains_jpegs(base_dir, ill_dir):
     current_dir = os.path.join(base_dir, ill_dir)
-    for files in os.walk(current_dir):
+    for root, dir, files in os.walk(current_dir):
         for file in files:
             file_path = os.path.join(current_dir, file)
             if not check_file_is_jpg(file_path):
@@ -50,35 +50,35 @@ def check_dir_contains_jpegs(base_dir, ill_dir):
 # Creates the directories required using the images in the folder.
 def create_dirs(base_dir, ill_dir):
     current_dir = os.path.join(base_dir, ill_dir)
-    for files in os.walk(current_dir):
+    for root, dirs, files in os.walk(current_dir):
+        # For each file, create a directory.
         for file in files:
             create_dir_from_image(file, current_dir)
 
-# Generates a new directory and moves the base image to it.
-def create_dir_from_image(file, current_dir, file_path):
-    for key in sizes_dict:
-        if file == key and key != '8x8in.jpg':
-            new_dir_path = os.path.join(current_dir, sizes_dict[file][-1])
-            new_file_path = os.path.join(new_dir_path, file)
-            os.mkdir(new_dir_path)
-            os.rename(file_path, new_file_path)
-
-# Generates a new directory from a file name.
+# Generates a new directory for each image in current_dir.
 def create_dir_from_image(file, current_dir):
-    for item in dir_list:
-        if file == item[0]:
-            new_dir_path = os.path.join(current_dir, item[1])
-            new_file_path = os.path.join(new_dir_path, file)
+    for tup in dir_list:
+        if file == tup[0]:
+            new_file_path = os.path.join(current_dir, tup[1])
             os.mkdir(new_file_path)
 
 # Moves the images to the correct directory.
 def move_images(base_dir, ill_dir):
     ill_path = os.path.join(base_dir, ill_dir)
-    for files in os.walk(ill_path):
-        for file in files:
-            current_file_path = os.path.join(ill_path, file)
-            new_file_path = os.path.join()
-
+    for root, dirs, files in os.walk(ill_path):
+        # If there aren't any dirs. Breaks os.walk() after the first pass.
+        if len(dirs) == 0:
+            break
+        else:
+            for file in files:
+                src = os.path.join(ill_path, file)
+                for tup in dir_list:
+                    if file == tup[0]:
+                        equiv_dir = tup[1]
+                        new_file_path = os.path.join(ill_path, equiv_dir, file)
+                        os.rename(src, new_file_path)
+                        break
+            
 # == Main Code ==
 
 # Directory creation list.
@@ -119,17 +119,23 @@ size_list = [
     {'8x8in.jpg': [2400, 2400]}, {'10x10in.jpg': [3000, 3000]}, {'12x12in.jpg': [3600, 3600]}, {'16x16in.jpg': [4800, 4800]}
     ]
 
+# If a command-line argument has been passed in and it's a directory.
 if has_cla() and check_cla_is_dir():
     base_dir = sys.argv[1]
 
 # Get a list of the directories inside base_dir.
 ill_dir_list = os.listdir(base_dir)
-
 # Checks that each directory has names following the convention 'Illustration X'.
 check_ill_dirs(ill_dir_list)
 
 # Checks that each directory contains all .jpeg files.
 for ill_dir in ill_dir_list:
     check_dir_contains_jpegs(base_dir, ill_dir)
+
+# Creates a directory per image.
+for ill_dir in ill_dir_list:
     create_dirs(base_dir, ill_dir)
+
+# Moves the initial images into the correct directory.
+for ill_dir in ill_dir_list:
     move_images(base_dir, ill_dir)
