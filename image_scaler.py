@@ -96,6 +96,40 @@ def move_images(base_dir, ill_dir):
 dir_list = [('4x5in.jpg', '4x5 Aspect Ratio'), ('4x6in.jpg', '2x3 Aspect Ratio'), ('5x7in.jpg', '5x7 Aspect Ratio'), ('6x8in.jpg', '3x4 Aspect Ratio'), ('11x14in.jpg', '11x14 Aspect Ratio'), ('A5P.jpg', 'ISO Sizes'),
             ('5x4in.jpg', '5x4 Aspect Ratio'), ('6x4in.jpg', '3x2 Aspect Ratio'), ('7x5in.jpg', '7x5 Aspect Ratio'), ('8x6in.jpg', '4x3 Aspect Ratio'), ('14x11in.jpg', '14x11 Aspect Ratio'), ('A5L.jpg', 'ISO Sizes')]
 
+# List of images for each aspect ratio.
+ar_list = [
+    # Portrait
+    # 4x5 Aspect Ratio
+    ['4x5in.jpg', '8x10in.jpg', '12x15in.jpg', '16x20in.jpg'],
+    # 2x3 Aspect Ratio
+    ['4x6in.jpg', '6x9in.jpg', '8x12in.jpg', '10x15in.jpg', '12x18in.jpg', '16x24in.jpg', '20x30in.jpg', '24x36in.jpg'],
+    # 5x7 Aspect Ratio
+    ['5x7in.jpg'],
+    # 3x4 Aspect Ratio
+    ['6x8in.jpg', '9x12in.jpg', '12x16in.jpg', '15x20in.jpg', '18x24in.jpg'],
+    # 11x14 Aspect Ratio
+    ['11x14in.jpg'],
+    # ISO Sizes
+    ['A5P.jpg', 'A4P.jpg', 'A3P.jpg', 'A2P.jpg', 'A1P.jpg'],
+
+    # Landscape
+    # 5x4 Aspect Ratio
+    ['5x4in.jpg', '10x8in.jpg', '15x12in.jpg', '20x16in.jpg'],
+    # 3x2 Aspect Ratio
+    ['6x4in.jpg', '9x6in.jpg', '12x8in.jpg', '15x10in.jpg', '18x12in.jpg', '24x16in.jpg', '30x20in.jpg', '36x24in.jpg'],
+    # 7x5 Aspect Ratio
+    ['7x5in.jpg'],
+    # 4x3 Aspect Ratio
+    ['8x6in.jpg', '12x9in.jpg', '16x12in.jpg', '20x15in.jpg', '24x18in.jpg'],
+    # 14x11 Aspect Ratio
+    ['14x11in.jpg'],
+    # ISO Sizes
+    ['A5L.jpg', 'A4L.jpg', 'A3L.jpg', 'A2L.jpg', 'A1L.jpg'],
+
+    # Square
+    ['8x8in.jpg', '10x10in.jpg', '12x12in.jpg', '16x16in.jpg']
+]
+
 # Size list.
 size_list = [
     # Portrait
