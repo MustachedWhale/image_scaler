@@ -196,3 +196,11 @@ print('')
 for ill_dir in ill_dir_list:
     move_images(base_dir, ill_dir)
     print(f'Images moved to the correct subdirectory for {ill_dir}.')
+
+# Creates new images for each aspect ratio.
+print('')
+for ill_dir in ill_dir_list:
+    # Creates a path for the illustration directory.
+    ill_path = os.path.join(base_dir, ill_dir)
+    # Get a list of aspect ratio directories.
+    ar_dir_list = os.listdir(ill_path)
