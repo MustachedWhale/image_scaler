@@ -90,6 +90,27 @@ def move_images(base_dir, ill_dir):
                         new_file_path = os.path.join(ill_path, equiv_dir, file)
                         os.rename(src, new_file_path)
                         break
+
+# Creates the new images.
+def create_images(ill_path, orig_image):
+    orig_im_file_path = os.path.join(ill_path, orig_image)
+    for ar_set in ar_list:
+        if orig_image == ar_set[0]:
+            for item in ar_set:
+                if item == orig_image:
+                    continue
+                else:
+                    for size_dict in size_list:
+                        for key, value in size_dict.items():
+                            if item == key:
+                                new_im_file_path = os.path.join(ill_path, item)
+                                new_width = value[0]
+                                new_height = value[1]
+                                cv2_im = cv2.imread(orig_im_file_path)
+                                resized_image = cv2.resize(cv2_im, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+                                cv2.imwrite(new_im_file_path, resized_image)
+                                pil_im = Image.open(new_im_file_path)
+                                pil_im.save(new_im_file_path, "JPEG", dpi=(300,300))
             
 # == Main Code ==
 
@@ -201,28 +222,14 @@ for ill_dir in ill_dir_list:
 # Creates new images for each aspect ratio.
 print('')
 for ill_dir in ill_dir_list:
-    # Creates a path for the illustration directory.
-    ill_path = os.path.join(base_dir, ill_dir)
-    # Get a list of aspect ratio directories.
-    ar_dir_list = os.listdir(ill_path)
-    # Pass if square image.
+    ill_dir_path = os.path.join(base_dir, ill_dir)
+    ar_dir_list = os.listdir(ill_dir_path)
     if len(ar_dir_list) == 1:
-        continue
-    for ar_dir in ar_dir_list:
-        ar_dir_path = os.path.join(ill_path, ar_dir)
-        # Get files from each aspect ratio folder.
-        for root, dirs, files in os.walk(ar_dir_path):
-            for file in files:
-                orig_im_file_path = os.path.join(ar_dir_path, file)
-                for ar in ar_list:
-                    if file == ar[0][0]:
-                        count = 1
-                        while True:
-                            new_im_file_path = os.path.join(ar_dir_path, file[0][count])
-                            for size in size_list:
-                                for key, value in size.items():
-                                    if file[0][count] == key:
-                                        new_width = value[0]
-                                        new_height = value[1]
-                                        cv2_im = cv2.imread(orig_im_file_path)
-                                        resized_image = cv2.resize(cv2_im, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+        create_images(ill_dir_path, ar_dir_list[0])
+        print(f'Images created in {ill_dir}.')
+    else:
+        for ar_dir in ar_dir_list:
+            ar_dir_path = os.path.join(ill_dir_path, ar_dir)
+            ar_file_list = os.listdir(ar_dir_path)
+            create_images(ar_dir_path, ar_file_list[0])
+        print(f'Images created in {ill_dir}.')
