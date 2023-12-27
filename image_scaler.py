@@ -233,3 +233,5 @@ for ill_dir in ill_dir_list:
             ar_file_list = os.listdir(ar_dir_path)
             create_images(ar_dir_path, ar_file_list[0])
         print(f'Images created in {ill_dir}.')
+
+print('\nScaling complete.')
