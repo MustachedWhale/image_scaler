@@ -107,7 +107,7 @@ def create_images(ill_path, orig_image):
                                 new_width = value[0]
                                 new_height = value[1]
                                 cv2_im = cv2.imread(orig_im_file_path)
-                                resized_image = cv2.resize(cv2_im, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
+                                resized_image = cv2.resize(cv2_im, (new_width, new_height), interpolation=cv2.INTER_LANCZOS4)
                                 cv2.imwrite(new_im_file_path, resized_image)
                                 pil_im = Image.open(new_im_file_path)
                                 pil_im.save(new_im_file_path, "JPEG", dpi=(300,300))
